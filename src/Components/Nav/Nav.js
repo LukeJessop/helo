@@ -5,11 +5,11 @@ import {connect} from 'react-redux'
 function Nav() {
     return(
         <div>
-            <Link to='/'>Logout</Link>
+            <Link to='/dashboard'>Dashboard</Link>
             <br/>
             <Link to='/new'>New</Link>
             <br/>
-            <Link to='/dashboard'>Dashboard</Link>
+            <Link to='/'>Logout</Link>
         </div>
     )
 }
