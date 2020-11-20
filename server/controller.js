@@ -41,5 +41,6 @@ module.exports = {
         } else {
             res.status(401).send('Incorrect login information')
         }
-    }
+    },
+    
 }

@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
-
+import { Link } from 'react-router-dom';
 class Dashboard extends Component{
     constructor(){
         super()
         this.state = {
             searchTerm: '',
-            checkBox: false,
-            list: []
+            checkBox: true,
+            posts: []
         }
     }
 
@@ -16,15 +16,17 @@ class Dashboard extends Component{
         })
     }
 
-    
-
     render(){ 
-        const mappedList = this.state.list.map((listItems) => {
-            <div>
-                <h2>Title</h2>
-                <h2>Author</h2>
-                <img>profile picture</img>
-            </div>
+        let mappedList = this.state.posts.map((element) => {
+            return <Link to={`/post/${element.post_id}`} key={element.post_id}>
+              <div className='content_box dash_post_box'>
+                <h3>{element.title}</h3>
+                <div>
+                  <p>by {element.author_username}</p>
+                  <img src={element.profile_pic} alt='author' />
+                </div>
+              </div>
+            </Link>
         })
         return(
             <div>
