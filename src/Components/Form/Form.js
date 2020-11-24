@@ -23,11 +23,11 @@ class Form extends Component{
             <div>
                 <div>
                     <input placeholder="title" onChange={(e) => this.setState({title: e.target.value})}></input>
-                    <img src={`${this.state.imgUrl}`}/>
                     <input placeholder="image URL" onChange={(e) => this.setState({imgUrl: e.target.value})}></input>
                     <input placeholder="content" onChange={(e) => this.setState({content: e.target.value})}></input>
                 </div>
                 <button onClick={this.submit}>Post</button>
+                <img src={`${this.state.imgUrl}`}/>
             </div>
         )
     }

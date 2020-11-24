@@ -12,6 +12,7 @@ class Post extends Component{
             author: '',
             authorPicture: ''
         }
+        this.goToDash = this.goToDash.bind(this)
     }
     componentDidMount() {
         axios.get(`/api/post/${this.props.match.params.id}`)
@@ -20,16 +21,39 @@ class Post extends Component{
         })
     }
 
+    editTitle(title, picture, content){
+      axios.put(`/api/post/${this.props.match.params.id}`, this.state)
+      .then(this.setState({title: title, img: picture, content: content}))
+    }
+    editPicture(picture){
+      axios.put(`/api/post/${this.props.match.params.id}`, this.state)
+      .then(this.setState({img: picture}))
+    }
+    editContent(content){
+      axios.put(`/api/post/${this.props.match.params.id}`, this.state)
+      .then(this.setState({content: content}))
+    }
+
+
+    goToDash(){
+      this.props.history.push('/dashboard')
+    }
+
     render(){
         const {title, img, content, username} = this.state
-        console.log(this.props)
           return(
-            <div>
+          <div>
             <div>
               <h2>{title}</h2>
-              
               <div>
                 <p>by {username}</p>
+                <span>Edit Post</span>
+                    <div>
+                      <input placeholder='Change Title' onChange={(e) => this.editTitle(e.target.value)}></input>
+                      <input placeholder='Change Picture' onChange={(e) => this.editPicture(e.target.value)}></input>
+                      <input placeholder='Change Content' onChange={(e) => this.editContent(e.target.value)}></input>
+                      <button onClick={this.goToDash}>Submit</button>
+                    </div>
               </div>
             </div>
             <div>
