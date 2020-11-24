@@ -13,8 +13,7 @@ class Form extends Component{
     }
     submit() {
         if (this.props.userId) {
-            axios.post(`/api/post`, this.state)
-            this.props.history.push('/dashboard')
+            axios.post(`/api/post`, this.state).then(this.props.history.push('/dashboard'))
         } else {
             alert('You must log in to create posts')
         }

@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import {connect} from 'react-redux'
 
 class Post extends Component{
     constructor(props){
         super(props)
         this.state = {
             title: '',
-            image: '',
+            img: '',
             content: '',
             author: '',
             authorPicture: ''
@@ -18,25 +19,30 @@ class Post extends Component{
             this.setState(res.data)
         })
     }
+
     render(){
-        const {title, image, content, username, profile_pic} = this.state
-        console.log(this.props.match.params.id)
-        return(
+        const {title, img, content, username} = this.state
+        console.log(this.props)
+          return(
             <div>
             <div>
               <h2>{title}</h2>
+              
               <div>
                 <p>by {username}</p>
-                <img src={profile_pic}/>
               </div>
             </div>
             <div>
-              <div style={{ backgroundImage: `url('${image}') ` }} alt='post' ></div>
+              <img src={img}/>
               <p>{content}</p>
             </div>
           </div>
         )
     }
 }
-
-export default Post
+function mapStateToProps(state){
+  return {
+      userId: state.userId
+  }
+}
+export default connect(mapStateToProps)(Post)

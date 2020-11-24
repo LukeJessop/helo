@@ -53,8 +53,10 @@ module.exports = {
 
     post: async (req, res) => {
         const db = req.app.get('db')
-        const {title, img, content} = req.body
-        await db.add_post([title, img, content, req.session.user.userId])
+        const {title, imgUrl, content} = req.body
+        const userId = req.session.user.userId
+        await db.add_post([title, imgUrl, content, userId])
+        console.log(userId)
         res.sendStatus(200)
     },
     getPost: async  (req, res) => {
@@ -67,5 +69,17 @@ module.exports = {
         catch(err){
             console.log(err)
         }
+    },
+    delete: (req, res) => {
+        const db = req.app.get('db')
+        const {id} = req.params
+        console.log(id)
+        db.remove_post(+id).then((post) => res.status(200).send(post))
+        
+    },
+    edit: (req, res) => {
+        const db = req.app.get('db')
+        const {id} = req.params
+        db.edit_post()
     }
 }

@@ -34,8 +34,8 @@ app.post('/auth/login', ctrl.login)
 app.get('/api/posts', ctrl.getPosts)
 app.get('/api/post/:id', ctrl.getPost)
 app.post('/api/post', ctrl.post)
-
-
+app.delete('/api/post/:id', ctrl.delete)
+app.put('/api/post/:id', ctrl.edit)
 
 
 

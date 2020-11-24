@@ -13,6 +13,7 @@ class Dashboard extends Component{
         }
         this.grabPosts = this.grabPosts.bind(this);
         this.reset = this.reset.bind(this);
+        this.delete = this.delete.bind(this)
     }
 
     changeHandler(e){
@@ -40,19 +41,28 @@ class Dashboard extends Component{
         })
     }
 
-    render(){ 
-      console.log(this.state.myPosts)
+    delete(id){
+      axios.delete(`/api/post/${id}`).then((res) => this.setState({myPosts: res.data}))
+    }
+
+    render(){
         let mappedList = this.state.myPosts.map((element) => {
-            return <Link to={`/post/${element.post_id}`} key={element.post_id}>
-              <div className='content_box dash_post_box'>
-                <h3>{element.title}</h3>
-                <div>
-                  <p>by {element.author_username}</p>
-                  <img src={element.profile_pic} alt='author' />
-                </div>
+            return (
+              <div>
+                <Link to={`/post/${element.post_id}`} key={element.post_id}>
+                  <div className="post">
+                    <h3>{element.title}</h3>
+                    <div>
+                      <p>by {element.username}</p>
+                      <img src={element.img}/>
+                    </div>
+                  </div>
+                </Link>
+                <button onClick={() => this.delete(element.post_id)}>Delete Post</button>
               </div>
-            </Link>
+            )
         })
+        console.log(this.state.myPosts)
         return(
             <div>
                 <input onChange={e => this.changeHandler(e.target.value)}></input>
