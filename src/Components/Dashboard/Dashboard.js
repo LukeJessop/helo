@@ -1,23 +1,48 @@
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom';
+import axios from 'axios'
+import {connect} from 'react-redux'
+
 class Dashboard extends Component{
     constructor(){
         super()
         this.state = {
-            searchTerm: '',
+            search: '',
             checkBox: true,
-            posts: []
+            myPosts: []
         }
+        this.grabPosts = this.grabPosts.bind(this);
+        this.reset = this.reset.bind(this);
     }
 
     changeHandler(e){
         this.setState({
-            searchTerm: e,
+            search: e,
+        })
+    }
+
+    componentDidMount() {
+      this.grabPosts();
+    }
+    grabPosts() {
+      let { search, checkBox } = this.state;
+      axios.get(`/api/posts?myPosts=${checkBox}&search=${search}`).then(res => this.setState({myPosts: res.data}))
+    }
+    reset() {
+      let { myPosts } = this.state;
+      let url = `/api/posts/${this.props.userId}`;
+      if (myPosts) {
+        url += '?mine=true';
+      }
+      axios.get(url)
+        .then(res => {
+          this.setState({ posts: res.data, loading: false, search: '' })
         })
     }
 
     render(){ 
-        let mappedList = this.state.posts.map((element) => {
+      console.log(this.state.myPosts)
+        let mappedList = this.state.myPosts.map((element) => {
             return <Link to={`/post/${element.post_id}`} key={element.post_id}>
               <div className='content_box dash_post_box'>
                 <h3>{element.title}</h3>
@@ -50,5 +75,10 @@ class Dashboard extends Component{
         )
     }
 }
+function mapStateToProps(state){
+    return {
+        userId: state.userId
+    }
+}
 
-export default Dashboard
+export default connect(mapStateToProps)(Dashboard)

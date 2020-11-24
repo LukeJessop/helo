@@ -2,9 +2,11 @@ import React from 'react'
 import {Link, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux'
 
-function Nav() {
+function Nav(props) {
     return(
         <div>
+            <img style={{backgroundImage: `url('${props.pfp})`}}></img>
+            <p>Hello {props.username}</p>
             <Link to='/dashboard'>Dashboard</Link>
             <br/>
             <Link to='/new'>New</Link>
@@ -14,6 +16,8 @@ function Nav() {
     )
 }
 
-const mapStateToProps = state => state
+function mapStateToProps(state) {
+    return state
+}
 
 export default connect(mapStateToProps)(Nav)

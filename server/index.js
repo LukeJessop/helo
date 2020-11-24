@@ -30,6 +30,13 @@ massive({
  
 app.post('/auth/register', ctrl.register)
 app.post('/auth/login', ctrl.login)
-// app.get('/post?q={"userposts", "search"}')
+
+app.get('/api/posts', ctrl.getPosts)
+app.get('/api/post/:id', ctrl.getPost)
+app.post('/api/post', ctrl.post)
+
+
+
+
 
 app.listen(SERVER_PORT, console.log(`You are on Port: ${SERVER_PORT}`))

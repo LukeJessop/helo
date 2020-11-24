@@ -4,17 +4,17 @@ module.exports = {
     register: async (req, res) => {
         const db = req.app.get('db')
         const { username, password } = req.body;
-
+        
         //checks to see if someone exists in database
         const user = await db.check_user(username)
         if(user[0]){
             return res.status(409).send("user already exists")
         }
-
+        
         //creates a hashpass for the password that is input
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
-
+        
         //creates new user in database with username and hashpass
         const [newUser] = await db.add_user([username, hash]);
         req.session.user = {
@@ -42,5 +42,30 @@ module.exports = {
             res.status(401).send('Incorrect login information')
         }
     },
-    
+    getPosts: (req, res) => {
+        const db = req.app.get('db')
+        const {search, myPosts} = req.query
+
+        db.get_user_posts([myPosts, req.session.user.userId, search])
+        .then((posts) => res.status(200).send(posts))
+        .catch(err => console.log(err))
+    },
+
+    post: async (req, res) => {
+        const db = req.app.get('db')
+        const {title, img, content} = req.body
+        await db.add_post([title, img, content, req.session.user.userId])
+        res.sendStatus(200)
+    },
+    getPost: async  (req, res) => {
+        try{
+            const db = req.app.get('db')
+            const {id} = req.params
+            const [post] = await db.get_post(+id)
+            res.status(200).send(post)
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
 }

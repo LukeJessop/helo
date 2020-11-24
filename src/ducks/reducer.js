@@ -24,7 +24,7 @@ export default function reducer (state = initalState, action) {
     let {type, payload} = action
     switch(type) {
         case UPDATE_USER:
-            return {...state, username: payload.username, pfp: payload.profile_pic, userId: payload.id}
+            return {...state, username: payload.username, userId: payload.userId}
         case LOGOUT:
             return initalState
         default:
